@@ -105,6 +105,8 @@ var allFunctions = function () {
     request.open("GET", requestUrl, true);
     request.onload = function () {
       if (this.status >= 200 && this.status < 400) {
+        document.querySelector("main .forDebug2").innerHTML = "";
+
         var textarea = document.createElement("textarea");
         textarea.rows = "20";
         textarea.cols = "60";
@@ -127,6 +129,9 @@ var allFunctions = function () {
   };
 
   var handleXMLResponse = function (data) {
+    document.querySelector("main .messages2").innerHTML = "";
+    document.querySelector("#xmlDataAsTable").innerHTML = "";
+
     var feature = data.getElementsByTagName("intersection")[0];
     if (typeof feature !== "undefined" && feature.childNodes.length > 0) {
       var headerRow = document.createElement("tr");
@@ -155,12 +160,16 @@ var allFunctions = function () {
   };
 
   var getAndDisplayMap = function (wms_request) {
+    document.querySelector("main .mapDiv").innerHTML = "";
     var img = document.createElement("img");
     img.style.display = "none";
     img.src = wms_request;
     document.querySelector("main .mapDiv").append(img);
-    img.style.display = "block";
+    img.onload = function() {
+        img.style.display = "block";
+    };
   };
+
 
   var constructWMSrequest = function (
     baseUrl,
@@ -291,7 +300,6 @@ var allFunctions = function () {
           break;
         }
       }
-
       // let lat = 0
       // let lng = 0
       requestWMSmap(lat, lng);
